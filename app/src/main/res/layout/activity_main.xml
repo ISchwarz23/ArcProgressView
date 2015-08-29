@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/controls_layout"
         arcView:progress="0.0"
-        arcView:progressPathColor="#FFFF0000"
+        arcView:progressPathColor="@color/primary"
         arcView:progressPathWidth="30"
         arcView:range="270"
         arcView:rangePathColor="#FFCCCCCC"
