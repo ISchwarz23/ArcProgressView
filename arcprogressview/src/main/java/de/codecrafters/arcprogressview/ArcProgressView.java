@@ -5,8 +5,8 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -17,18 +17,19 @@ import android.view.animation.Interpolator;
 public class ArcProgressView extends View {
 
     private static final int DEFAULT_RANGE = 270;
-    private static final int DEFAULT_RANGE_PATH_COLOR= 0xFFBBBBBB;
+    private static final int DEFAULT_RANGE_PATH_COLOR = 0xFFBBBBBB;
     private static final int DEFAULT_RANGE_PATH_WIDTH = 4;
     private static final float DEFAULT_PROGRESS = 0.25f;
-    private static final int DEFAULT_PROGRESS_PATH_COLOR= 0xFFFF0000;
+    private static final int DEFAULT_PROGRESS_PATH_COLOR = 0xFFFF0000;
     private static final int DEFAULT_PROGRESS_PATH_WIDTH = 20;
     private static final int DEFAULT_START_ANGLE = 135;
+    private static final int DEFAULT_ANIMATION_DURATION = 250;
 
     private final Paint paint = new Paint();
 
     private Interpolator interpolator = new AccelerateDecelerateInterpolator();
-    private boolean animateProgress = true;
-    private long animationDuration = 250;
+    private long animationDuration = DEFAULT_ANIMATION_DURATION;
+    private boolean animateProgress = false;
     private Runnable animator;
 
     private int rangePathColor, progressPathColor;
@@ -52,7 +53,7 @@ public class ArcProgressView extends View {
         initializePaint();
     }
 
-    private void initializePaint(){
+    private void initializePaint() {
         paint.setAntiAlias(true);
         paint.setTextAlign(Paint.Align.CENTER);
     }
@@ -74,12 +75,25 @@ public class ArcProgressView extends View {
         invalidate();
     }
 
-    public void setProgress(float progress) {
-        if(animateProgress) {
-            setProgressAnimated(progress);
-        } else {
-            setProgressNotAnimated(progress);
+    public void setProgress(final float progress) {
+        float progressToSet = progress;
+
+        if(progressToSet < 0) {
+            progressToSet = 0;
+        } else if(progressToSet > 1) {
+            progressToSet = 1;
         }
+
+        if (animateProgress) {
+            setProgressAnimated(progressToSet);
+        } else {
+            setProgressNotAnimated(progressToSet);
+        }
+    }
+
+    public void setRange(int range) {
+        this.range = range;
+        invalidate();
     }
 
     public void setProgressAnimationEnabled(boolean animated) {
@@ -97,11 +111,15 @@ public class ArcProgressView extends View {
 
         animator = new Runnable() {
             private float animationProgress = 0.0f;
+
             @Override
             public void run() {
+                if(animationProgress > 1) {
+                    animationProgress = 1;
+                }
                 float newProgress = startProgress + interpolator.getInterpolation(animationProgress) * progressDelta;
                 setProgressNotAnimated(newProgress);
-                if(animationProgress < 1) {
+                if (animationProgress < 1) {
                     animationProgress += 1.0f / (animationDuration / 16.0f);
                     postDelayed(this, 16);
                 }
@@ -115,7 +133,7 @@ public class ArcProgressView extends View {
         invalidate();
     }
 
-    public void setAnimationInterpolator(Interpolator interpolator) {
+    public void setProgressAnimationInterpolator(Interpolator interpolator) {
         this.interpolator = interpolator;
     }
 
@@ -127,41 +145,54 @@ public class ArcProgressView extends View {
         int minLength = Math.min(width, height);
         float radius = minLength / 2.0f - spacing;
 
-        int left = (width > minLength) ?  spacing + (width - minLength) / 2 : spacing;
+        int left = (width > minLength) ? spacing + (width - minLength) / 2 : spacing;
         int top = (height > minLength) ? spacing + (height - minLength) / 2 : spacing;
         int right = (width > minLength) ? width - left : minLength - left;
         int bottom = (height > minLength) ? height - top : minLength - top;
         RectF area = new RectF(left, top, right, bottom);
 
-        // Draw path
+        // draw range path
         paint.setColor(rangePathColor);
         paint.setStrokeWidth(rangePathWidth);
         paint.setStyle(Paint.Style.STROKE);
         canvas.drawArc(area, startAngle, range, false, paint);
 
+        // draw start end of range path
         paint.setStrokeWidth(0.0f);
         paint.setStyle(Paint.Style.FILL);
-        float cx = width/2.0f + radius * (float)Math.cos(Math.toRadians(startAngle));
-        float cy = height/2.0f + radius * (float)Math.sin(Math.toRadians(startAngle));
+        float cx = width / 2.0f + radius * (float) Math.cos(Math.toRadians(startAngle));
+        float cy = height / 2.0f + radius * (float) Math.sin(Math.toRadians(startAngle));
         canvas.drawCircle(cx, cy, rangePathWidth / 2.0f, paint);
-        cx = width/2.0f + radius * (float)Math.cos(Math.toRadians(startAngle + range));
-        cy = height/2.0f + radius * (float)Math.sin(Math.toRadians(startAngle + range));
+        cx = width / 2.0f + radius * (float) Math.cos(Math.toRadians(startAngle + range));
+        cy = height / 2.0f + radius * (float) Math.sin(Math.toRadians(startAngle + range));
         canvas.drawCircle(cx, cy, rangePathWidth / 2.0f, paint);
 
-        // Draw progress
+        // draw progress path
         paint.setColor(progressPathColor);
         paint.setStrokeWidth(progressPathWidth);
         paint.setStyle(Paint.Style.STROKE);
-        canvas.drawArc(area, startAngle, progress *range, false, paint);
+        canvas.drawArc(area, startAngle, progress * range, false, paint);
 
         paint.setStrokeWidth(0.0f);
         paint.setStyle(Paint.Style.FILL);
-        cx = width/2.0f + radius * (float)Math.cos(Math.toRadians(startAngle));
-        cy = height/2.0f + radius * (float)Math.sin(Math.toRadians(startAngle));
+        cx = width / 2.0f + radius * (float) Math.cos(Math.toRadians(startAngle));
+        cy = height / 2.0f + radius * (float) Math.sin(Math.toRadians(startAngle));
         canvas.drawCircle(cx, cy, progressPathWidth / 2.0f, paint);
-        cx = width/2.0f + radius * (float)Math.cos(Math.toRadians(startAngle + range*progress));
-        cy = height/2.0f + radius * (float)Math.sin(Math.toRadians(startAngle + range * progress));
+        cx = width / 2.0f + radius * (float) Math.cos(Math.toRadians(startAngle + range * progress));
+        cy = height / 2.0f + radius * (float) Math.sin(Math.toRadians(startAngle + range * progress));
         canvas.drawCircle(cx, cy, progressPathWidth / 2.0f, paint);
     }
 
+    public int getRange() {
+        return range;
+    }
+
+    public void setStartAngle(final int startAngle) {
+        this.startAngle = startAngle;
+        invalidate();
+    }
+
+    public int getStartAngle() {
+        return startAngle;
+    }
 }
