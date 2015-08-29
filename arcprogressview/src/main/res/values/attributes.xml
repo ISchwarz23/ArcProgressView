@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ArcProgressView">
+        <attr name="range" format="integer"/>
+        <attr name="rangePathWidth" format="integer"/>
+        <attr name="rangePathColor" format="color"/>
+        <attr name="progress" format="float"/>
+        <attr name="progressPathWidth" format="integer"/>
+        <attr name="progressPathColor" format="color"/>
+        <attr name="startAngel" format="integer"/>
+    </declare-styleable>
+</resources>
+
