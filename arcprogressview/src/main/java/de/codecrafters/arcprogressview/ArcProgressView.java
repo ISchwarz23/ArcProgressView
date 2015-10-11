@@ -70,6 +70,34 @@ public class ArcProgressView extends View {
         styledAttributes.recycle();
     }
 
+    public int getRange() {
+        return range;
+    }
+
+    public void setStartAngle(final int startAngle) {
+        this.startAngle = startAngle;
+        invalidate();
+    }
+
+    public int getStartAngle() {
+        return startAngle;
+    }
+
+    public void setRangePathColor(final int rangePathColor) {
+        this.rangePathColor = rangePathColor;
+        invalidate();
+    }
+
+    public void setProgressPathWidth(final int progressPathWidth) {
+        this.progressPathWidth = progressPathWidth;
+        invalidate();
+    }
+
+    public void setRangePathWidth(final int rangePathWidth) {
+        this.rangePathWidth = rangePathWidth;
+        invalidate();
+    }
+
     public void setProgressPathColor(int color) {
         this.progressPathColor = color;
         invalidate();
@@ -183,16 +211,4 @@ public class ArcProgressView extends View {
         canvas.drawCircle(cx, cy, progressPathWidth / 2.0f, paint);
     }
 
-    public int getRange() {
-        return range;
-    }
-
-    public void setStartAngle(final int startAngle) {
-        this.startAngle = startAngle;
-        invalidate();
-    }
-
-    public int getStartAngle() {
-        return startAngle;
-    }
 }
