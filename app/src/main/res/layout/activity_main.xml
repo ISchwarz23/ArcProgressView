@@ -97,6 +97,6 @@
         arcView:range="270"
         arcView:rangePathColor="#FFCCCCCC"
         arcView:rangePathWidth="4"
-        arcView:startAngel="135"/>
+        arcView:startAngle="135"/>
 
 </RelativeLayout>

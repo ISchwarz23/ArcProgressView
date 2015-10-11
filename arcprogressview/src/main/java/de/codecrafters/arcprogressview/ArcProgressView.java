@@ -66,7 +66,7 @@ public class ArcProgressView extends View {
         progress = styledAttributes.getFloat(R.styleable.ArcProgressView_progress, DEFAULT_PROGRESS);
         progressPathColor = styledAttributes.getInt(R.styleable.ArcProgressView_progressPathColor, DEFAULT_PROGRESS_PATH_COLOR);
         progressPathWidth = styledAttributes.getInt(R.styleable.ArcProgressView_progressPathWidth, DEFAULT_PROGRESS_PATH_WIDTH);
-        startAngle = styledAttributes.getInt(R.styleable.ArcProgressView_startAngel, DEFAULT_START_ANGLE);
+        startAngle = styledAttributes.getInt(R.styleable.ArcProgressView_startAngle, DEFAULT_START_ANGLE);
         styledAttributes.recycle();
     }
 

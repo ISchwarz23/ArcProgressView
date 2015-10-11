@@ -7,7 +7,7 @@
         <attr name="progress" format="float"/>
         <attr name="progressPathWidth" format="integer"/>
         <attr name="progressPathColor" format="color"/>
-        <attr name="startAngel" format="integer"/>
+        <attr name="startAngle" format="integer"/>
     </declare-styleable>
 </resources>
 
