@@ -8,7 +8,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.BounceInterpolator;
-import android.view.animation.CycleInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
@@ -25,7 +24,14 @@ import java.util.List;
 
 import de.codecrafters.arcprogressview.ArcProgressView;
 import de.codecrafters.arcprogressviewexample.utils.InterpolatorSpinnerAdapter;
+import de.codecrafters.arcprogressviewexample.utils.OnSeekBarChangeListenerAdapter;
 
+/**
+ * The main activity of the ArcProgressView example, that provides some possibilities to
+ * manipulate the ArcProgressView.
+ *
+ * @author ISchwarz
+ */
 public class MainActivity extends AppCompatActivity {
 
     private float progress = 0;
@@ -41,39 +47,19 @@ public class MainActivity extends AppCompatActivity {
 
         final SeekBar startAngleSeekBar = (SeekBar) findViewById(R.id.start_angle_seekbar);
         startAngleSeekBar.setProgress(progressView.getStartAngle());
-        startAngleSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        startAngleSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListenerAdapter() {
             @Override
             public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
                 progressView.setStartAngle(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(final SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(final SeekBar seekBar) {
-
             }
         });
 
         final SeekBar sweepAngleSeekBar = (SeekBar) findViewById(R.id.sweep_angle_seekbar);
         sweepAngleSeekBar.setProgress(progressView.getRange());
-        sweepAngleSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        sweepAngleSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListenerAdapter() {
             @Override
             public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
                 progressView.setRange(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(final SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(final SeekBar seekBar) {
-
             }
         });
 
