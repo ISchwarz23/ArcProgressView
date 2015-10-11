@@ -5,14 +5,15 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
 /**
- * Created by Ingo on 23.08.2015.
+ * A view that will display your progress as an Arc.
+ *
+ * @author ISchwarz
  */
 public class ArcProgressView extends View {
 
@@ -74,13 +75,18 @@ public class ArcProgressView extends View {
         return range;
     }
 
-    public void setStartAngle(final int startAngle) {
-        this.startAngle = startAngle;
+    public void setRange(int range) {
+        this.range = range;
         invalidate();
     }
 
     public int getStartAngle() {
         return startAngle;
+    }
+
+    public void setStartAngle(final int startAngle) {
+        this.startAngle = startAngle;
+        invalidate();
     }
 
     public void setRangePathColor(final int rangePathColor) {
@@ -106,9 +112,9 @@ public class ArcProgressView extends View {
     public void setProgress(final float progress) {
         float progressToSet = progress;
 
-        if(progressToSet < 0) {
+        if (progressToSet < 0) {
             progressToSet = 0;
-        } else if(progressToSet > 1) {
+        } else if (progressToSet > 1) {
             progressToSet = 1;
         }
 
@@ -117,11 +123,6 @@ public class ArcProgressView extends View {
         } else {
             setProgressNotAnimated(progressToSet);
         }
-    }
-
-    public void setRange(int range) {
-        this.range = range;
-        invalidate();
     }
 
     public void setProgressAnimationEnabled(boolean animated) {
@@ -142,7 +143,7 @@ public class ArcProgressView extends View {
 
             @Override
             public void run() {
-                if(animationProgress > 1) {
+                if (animationProgress > 1) {
                     animationProgress = 1;
                 }
                 float newProgress = startProgress + interpolator.getInterpolation(animationProgress) * progressDelta;
