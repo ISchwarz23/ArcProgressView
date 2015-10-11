@@ -1,5 +1,34 @@
 apply plugin: 'com.android.library'
 
+
+def final arcProgressViewLibraryVersion = '0.9.1'
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'ArcProgressView'
+
+    publishedGroupId = 'de.codecrafters.arcprogressview'
+    libraryName = 'ArcProgressView'
+    artifact = 'arcprogressview'
+
+    libraryDescription = 'An Android library containing a ArcProgressView ' +
+            'providing a lot of customisation possibilities to fit all needs.'
+
+    siteUrl = 'https://github.com/ISchwarz23/ArcProgressView'
+    gitUrl = 'https://github.com/ISchwarz23/ArcProgressView.git'
+
+    libraryVersion = arcProgressViewLibraryVersion
+
+    developerId = 'ischwarz'
+    developerName = 'Ingo Schwarz'
+    developerEmail = 'schwarz-ingo@web.de'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+
 android {
     compileSdkVersion 23
     buildToolsVersion "22.0.1"
